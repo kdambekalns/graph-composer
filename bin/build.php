@@ -12,17 +12,16 @@ if ($version === false) {
 }
 
 // use first argument as output file or use "graph-composer-{version}.phar"
-$out = isset($argv[1]) ? $argv[1] : ('graph-composer-' . $version . '.phar');
+$out = $argv[1] ?? ('graph-composer-' . $version . '.phar');
 
 passthru('
 rm -rf build && mkdir build &&
-cp -r bin/ src/ composer.json LICENSE build/ &&
-sed -i \'s/@dev/' . $version .'/g\' build/src/App.php &&
-composer config -d build/ platform.php 5.3.6 &&
+cp -r bin src composer.json LICENSE build/ &&
+sed -i .bak \'s/@dev/' . $version .'/g\' build/src/App.php && rm build/src/App.php.bak &&
+composer config -d build/ platform.php 8.2.0 &&
 composer install -d build/ --no-dev &&
 
 cd build/ && rm -rf bin/build.php vendor/*/*/tests/ vendor/*/*/examples/ vendor/*/*/*.md vendor/*/*/composer.* vendor/*/*/phpunit.* vendor/*/*/.gitignore vendor/*/*/.travis.yml && cd .. &&
-cd build/vendor/symfony/console/Symfony/Component/Console/ && rm -rf Tests/ *.md composer.* phpunit.* .gitignore && cd - &&
 vendor/bin/phar-composer build build/ ' . escapeshellarg($out) . ' &&
 
 php ' . escapeshellarg($out) . ' --version', $code);
