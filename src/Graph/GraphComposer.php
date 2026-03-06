@@ -20,29 +20,29 @@ class GraphComposer
         'style' => 'filled, rounded, bold'
     );
 
-    private $layoutEdge = array(
+    private array $layoutEdge = [
         'fontcolor' => '#767676',
         'fontsize' => 10,
         'color' => '#1A2833'
-    );
+    ];
 
-    private $layoutEdgeDev = array(
+    private array $layoutEdgeDev = [
         'style' => 'dashed'
-    );
+    ];
 
-    private $dependencyGraph;
+    private DependencyGraph $dependencyGraph;
 
     /**
-     * @var GraphViz
+     * @var ?GraphViz
      */
-    private $graphviz;
+    private ?GraphViz $graphviz;
 
     /**
      *
      * @param string $dir
      * @param GraphViz|null $graphviz
      */
-    public function __construct($dir, ?GraphViz $graphviz = null)
+    public function __construct(string $dir, ?GraphViz $graphviz = null)
     {
         if ($graphviz === null) {
             $graphviz = new GraphViz();
