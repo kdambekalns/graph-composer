@@ -27,10 +27,10 @@ class Export extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $graph = new GraphComposer($input->getArgument('dir'));
+        $graph = new GraphComposer((string)$input->getArgument('dir'));
 
-        $target = $input->getArgument('output');
-        if ($target !== null) {
+        $target = (string)$input->getArgument('output');
+        if ($target !== '') {
             if (is_dir($target)) {
                 $target = rtrim($target, '/') . '/graph-composer.svg';
             }
@@ -43,14 +43,14 @@ class Export extends Command
             }
         }
 
-        $format = $input->getOption('format');
-        if ($format !== null) {
+        $format = (string)$input->getOption('format');
+        if ($format !== '') {
             $graph->setFormat($format);
         }
 
         $path = $graph->getImagePath();
 
-        if ($target !== null) {
+        if ($target !== '') {
             rename($path, $target);
         } else {
             readfile($path);

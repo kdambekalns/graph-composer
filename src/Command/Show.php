@@ -23,8 +23,8 @@ class Show extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $graph = new GraphComposer($input->getArgument('dir'));
-        $graph->setFormat($input->getOption('format'));
+        $graph = new GraphComposer((string)$input->getArgument('dir'));
+        $graph->setFormat((string)$input->getOption('format'));
         $graph->displayGraph();
 
         return 0;

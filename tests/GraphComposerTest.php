@@ -27,7 +27,7 @@ class GraphVizMockCreateImageFile extends GraphViz
 class GraphVizMockSetFormat extends GraphViz
 {
     public ?string $called = null;
-    public function setFormat($format): void
+    public function setFormat($format)
     {
         $this->called = $format;
     }

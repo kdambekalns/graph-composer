@@ -23,28 +23,26 @@ class GraphComposer
         'style' => 'filled, rounded, bold'
     ];
 
+    /**
+     * @var array<string, mixed>
+     */
     private array $layoutEdge = [
         'fontcolor' => '#767676',
         'fontsize' => 10,
         'color' => '#1A2833'
     ];
 
+    /**
+     * @var array<string, mixed>
+     */
     private array $layoutEdgeDev = [
         'style' => 'dashed'
     ];
 
     private DependencyGraph $dependencyGraph;
 
-    /**
-     * @var ?GraphViz
-     */
-    private ?GraphViz $graphviz;
+    private GraphViz $graphviz;
 
-    /**
-     *
-     * @param string $dir
-     * @param GraphViz|null $graphviz
-     */
     public function __construct(string $dir, ?GraphViz $graphviz = null)
     {
         if ($graphviz === null) {
@@ -56,10 +54,6 @@ class GraphComposer
         $this->graphviz = $graphviz;
     }
 
-    /**
-     *
-     * @return Graph
-     */
     public function createGraph(): Graph
     {
         $graph = new Graph();
@@ -69,7 +63,7 @@ class GraphComposer
             $start = $graph->createVertex($name, true);
 
             $label = $name;
-            if ($package->getVersion() !== null) {
+            if ($package->getVersion() !== '') {
                 $label .= ': ' . $package->getVersion();
             }
 
@@ -96,6 +90,9 @@ class GraphComposer
         return $graph;
     }
 
+    /**
+     * @param array<string, mixed> $layout
+     */
     private function setLayout(AttributeAware $entity, array $layout): void
     {
         $bag = new AttributeBagNamespaced($entity->getAttributeBag(), 'graphviz.');
@@ -116,7 +113,7 @@ class GraphComposer
         return $this->graphviz->createImageFile($graph);
     }
 
-    public function setFormat($format): static
+    public function setFormat(string $format): static
     {
         $this->graphviz->setFormat($format);
 
