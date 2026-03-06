@@ -10,6 +10,6 @@ class AppTest extends TestCase
     {
         $app = new App();
 
-        $this->assertEquals('@dev', $app->getVersion());
+        static::assertEquals('@dev', $app->getVersion());
     }
 }

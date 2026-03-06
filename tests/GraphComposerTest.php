@@ -42,8 +42,7 @@ class GraphTest extends TestCase
         $graphComposer = new GraphComposer($dir);
         $graph = $graphComposer->createGraph();
 
-        $this->assertInstanceOf('Fhaculty\Graph\Graph', $graph);
-        $this->assertTrue(count($graph->getVertices()) > 0);
+        static::assertNotEmpty($graph->getVertices());
     }
 
     public function testDisplayGraphCallsDisplayGraphViz(): void
@@ -56,7 +55,7 @@ class GraphTest extends TestCase
         $graphComposer = new GraphComposer($dir, $graphviz);
         $graphComposer->displayGraph();
 
-        $this->assertEquals(1, $graphviz->called);
+        static::assertEquals(1, $graphviz->called);
     }
 
     public function testGetImagePathWillCreateTemporaryImageFileViaGraphViz(): void
@@ -69,7 +68,7 @@ class GraphTest extends TestCase
         $graphComposer = new GraphComposer($dir, $graphviz);
         $ret = $graphComposer->getImagePath();
 
-        $this->assertEquals('test1.png', $ret);
+        static::assertEquals('test1.png', $ret);
     }
 
     public function testSetFormatWillSetFormatOnGraphViz(): void
@@ -82,7 +81,7 @@ class GraphTest extends TestCase
         $graphComposer = new GraphComposer($dir, $graphviz);
         $ret = $graphComposer->setFormat('gif');
 
-        $this->assertEquals($graphComposer, $ret);
-        $this->assertEquals('gif', $graphviz->called);
+        static::assertEquals($graphComposer, $ret);
+        static::assertEquals('gif', $graphviz->called);
     }
 }
