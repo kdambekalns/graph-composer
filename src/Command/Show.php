@@ -11,7 +11,7 @@ use Clue\GraphComposer\Graph\GraphComposer;
 
 class Show extends Command
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('show')
              ->setDescription('Show dependency graph image for given project directory')
@@ -20,7 +20,7 @@ class Show extends Command
            /*->addOption('dev', null, InputOption::VALUE_NONE, 'If set, Whether require-dev dependencies should be shown') */;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $graph = new GraphComposer($input->getArgument('dir'));
         $graph->setFormat($input->getOption('format'));
