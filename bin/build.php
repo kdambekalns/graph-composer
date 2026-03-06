@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 // explicitly give VERSION via ENV or ask git for current version
 $version = getenv('VERSION');

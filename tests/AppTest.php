@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 use Clue\GraphComposer\App;
 use PHPUnit\Framework\TestCase;

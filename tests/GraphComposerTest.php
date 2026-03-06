@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 use Clue\GraphComposer\Graph\GraphComposer;
 use Fhaculty\Graph\Graph;
