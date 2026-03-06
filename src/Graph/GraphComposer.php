@@ -42,7 +42,7 @@ class GraphComposer
      * @param string $dir
      * @param GraphViz|null $graphviz
      */
-    public function __construct($dir, GraphViz $graphviz = null)
+    public function __construct($dir, ?GraphViz $graphviz = null)
     {
         if ($graphviz === null) {
             $graphviz = new GraphViz();
