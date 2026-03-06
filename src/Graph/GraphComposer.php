@@ -73,7 +73,7 @@ class GraphComposer
                 $label .= ': ' . $package->getVersion();
             }
 
-            $this->setLayout($start, array('label' => $label) + $this->layoutVertex);
+            $this->setLayout($start, ['label' => $label] + self::LAYOUT_VERTEX);
 
             foreach ($package->getOutEdges() as $requires) {
                 $targetName = $requires->getDestPackage()->getName();
@@ -82,7 +82,7 @@ class GraphComposer
                 $label = $requires->getVersionConstraint();
 
                 $edge = $start->createEdgeTo($target);
-                $this->setLayout($edge, array('label' => $label) + $this->layoutEdge);
+                $this->setLayout($edge, ['label' => $label] + $this->layoutEdge);
 
                 if ($requires->isDevDependency()) {
                     $this->setLayout($edge, $this->layoutEdgeDev);
