@@ -7,6 +7,8 @@ use Fhaculty\Graph\Graph;
 use Fhaculty\Graph\Attribute\AttributeAware;
 use Fhaculty\Graph\Attribute\AttributeBagNamespaced;
 use Graphp\GraphViz\GraphViz;
+use JMS\Composer\DependencyAnalyzer;
+use JMS\Composer\Graph\DependencyGraph;
 
 class GraphComposer
 {
@@ -49,15 +51,14 @@ class GraphComposer
             $graphviz = new GraphViz();
             $graphviz->setFormat('svg');
         }
-        $analyzer = new \JMS\Composer\DependencyAnalyzer();
+        $analyzer = new DependencyAnalyzer();
         $this->dependencyGraph = $analyzer->analyze($dir);
         $this->graphviz = $graphviz;
     }
 
     /**
      *
-     * @param string $dir
-     * @return \Fhaculty\Graph\Graph
+     * @return Graph
      */
     public function createGraph(): Graph
     {
