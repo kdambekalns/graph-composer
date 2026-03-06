@@ -41,6 +41,9 @@ class GraphComposer
 
     private bool $showDevDependencies = true;
 
+    private bool $showPhpExtensions = false;
+
+    /** @var string[] */
     private DependencyGraph $dependencyGraph;
 
     private GraphViz $graphviz;
@@ -75,6 +78,10 @@ class GraphComposer
                 if (!$this->showDevDependencies && $requires->isDevDependency()) {
                     continue;
                 }
+                if (!$this->showPhpExtensions && $requires->getDestPackage()->isPhpExtension()) {
+                    continue;
+                }
+
                 $targetName = $requires->getDestPackage()->getName();
                 $target = $graph->createVertex($targetName, true);
 
@@ -137,6 +144,12 @@ class GraphComposer
         $graph = $this->createGraph();
 
         return $this->graphviz->createImageFile($graph);
+    }
+
+    public function setShowPhpExtensions(bool $show): static
+    {
+        $this->showPhpExtensions = $show;
+        return $this;
     }
 
     public function setShowDevDependencies(bool $show): static

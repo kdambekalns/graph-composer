@@ -22,13 +22,15 @@ class Export extends Command
              // add output format option. default value MUST NOT be given, because default is to overwrite with output extension
              ->addOption('format', null, InputOption::VALUE_REQUIRED, 'Image format (svg, png, jpeg)'/*, 'svg'*/)
 
-             ->addOption('dev', null, InputOption::VALUE_NONE, 'If set, require-dev dependencies are included');
+             ->addOption('dev', null, InputOption::VALUE_NONE, 'If set, require-dev dependencies are included')
+             ->addOption('php-exts', null, InputOption::VALUE_NONE, 'If set, PHP extension dependencies are included');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $graph = new GraphComposer((string)$input->getArgument('dir'));
         $graph->setShowDevDependencies((bool)$input->getOption('dev'));
+        $graph->setShowPhpExtensions((bool)$input->getOption('php-exts'));
 
         $target = (string)$input->getArgument('output');
         if ($target !== '') {
