@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 
 class AppTest extends TestCase
 {
-    public function testVersionReturnsDev()
+    public function testVersionReturnsDev(): void
     {
         $app = new App();
 

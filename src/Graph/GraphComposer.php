@@ -58,7 +58,7 @@ class GraphComposer
      * @param string $dir
      * @return \Fhaculty\Graph\Graph
      */
-    public function createGraph()
+    public function createGraph(): Graph
     {
         $graph = new Graph();
 
@@ -94,29 +94,27 @@ class GraphComposer
         return $graph;
     }
 
-    private function setLayout(AttributeAware $entity, array $layout)
+    private function setLayout(AttributeAware $entity, array $layout): void
     {
         $bag = new AttributeBagNamespaced($entity->getAttributeBag(), 'graphviz.');
         $bag->setAttributes($layout);
-
-        return $entity;
     }
 
-    public function displayGraph()
+    public function displayGraph(): void
     {
         $graph = $this->createGraph();
 
         $this->graphviz->display($graph);
     }
 
-    public function getImagePath()
+    public function getImagePath(): string
     {
         $graph = $this->createGraph();
 
         return $this->graphviz->createImageFile($graph);
     }
 
-    public function setFormat($format)
+    public function setFormat($format): static
     {
         $this->graphviz->setFormat($format);
 

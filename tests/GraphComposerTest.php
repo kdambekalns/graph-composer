@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 class GraphVizMockDisplay extends GraphViz
 {
     public $called = 0;
-    public function display(Graph $graph)
+    public function display(Graph $graph): void
     {
         ++$this->called;
     }
@@ -17,7 +17,7 @@ class GraphVizMockDisplay extends GraphViz
 class GraphVizMockCreateImageFile extends GraphViz
 {
     public $called = 0;
-    public function createImageFile(Graph $graph)
+    public function createImageFile(Graph $graph): string
     {
         return 'test' . ++$this->called . '.png';
     }
@@ -26,7 +26,7 @@ class GraphVizMockCreateImageFile extends GraphViz
 class GraphVizMockSetFormat extends GraphViz
 {
     public $called = null;
-    public function setFormat($format)
+    public function setFormat($format): void
     {
         $this->called = $format;
     }
@@ -34,7 +34,7 @@ class GraphVizMockSetFormat extends GraphViz
 
 class GraphTest extends TestCase
 {
-    public function testCreateGraph()
+    public function testCreateGraph(): void
     {
         $dir = __DIR__ . '/../';
 
@@ -45,7 +45,7 @@ class GraphTest extends TestCase
         $this->assertTrue(count($graph->getVertices()) > 0);
     }
 
-    public function testDisplayGraphCallsDisplayGraphViz()
+    public function testDisplayGraphCallsDisplayGraphViz(): void
     {
         $dir = __DIR__ . '/../';
 
@@ -58,7 +58,7 @@ class GraphTest extends TestCase
         $this->assertEquals(1, $graphviz->called);
     }
 
-    public function testGetImagePathWillCreateTemporaryImageFileViaGraphViz()
+    public function testGetImagePathWillCreateTemporaryImageFileViaGraphViz(): void
     {
         $dir = __DIR__ . '/../';
 
@@ -71,7 +71,7 @@ class GraphTest extends TestCase
         $this->assertEquals('test1.png', $ret);
     }
 
-    public function testSetFormatWillSetFormatOnGraphViz()
+    public function testSetFormatWillSetFormatOnGraphViz(): void
     {
         $dir = __DIR__ . '/../';
 
