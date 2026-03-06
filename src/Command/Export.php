@@ -23,7 +23,9 @@ class Export extends Command
              ->addOption('format', null, InputOption::VALUE_REQUIRED, 'Image format (svg, png, jpeg)'/*, 'svg'*/)
 
              ->addOption('dev', null, InputOption::VALUE_NONE, 'If set, require-dev dependencies are included')
-             ->addOption('php-exts', null, InputOption::VALUE_NONE, 'If set, PHP extension dependencies are included');
+             ->addOption('php-exts', null, InputOption::VALUE_NONE, 'If set, PHP extension dependencies are included')
+             ->addOption('ignore-deps-vendor', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Ignore outgoing dependencies of packages with given vendor', [])
+             ->addOption('ignore-deps-package', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Ignore outgoing dependencies of given package', []);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -31,6 +33,8 @@ class Export extends Command
         $graph = new GraphComposer((string)$input->getArgument('dir'));
         $graph->setShowDevDependencies((bool)$input->getOption('dev'));
         $graph->setShowPhpExtensions((bool)$input->getOption('php-exts'));
+        $graph->setIgnoredDepVendors($input->getOption('ignore-deps-vendor'));
+        $graph->setIgnoredDepPackages($input->getOption('ignore-deps-package'));
 
         $target = (string)$input->getArgument('output');
         if ($target !== '') {

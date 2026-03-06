@@ -44,6 +44,11 @@ class GraphComposer
     private bool $showPhpExtensions = false;
 
     /** @var string[] */
+    private array $ignoredDepVendors = [];
+
+    /** @var string[] */
+    private array $ignoredDepPackages = [];
+
     private DependencyGraph $dependencyGraph;
 
     private GraphViz $graphviz;
@@ -74,6 +79,12 @@ class GraphComposer
 
             $this->setLayout($start, ['label' => $label] + self::LAYOUT_VERTEX);
 
+            $vendor = strstr($name, '/', true);
+            if (in_array($name, $this->ignoredDepPackages, true)
+                || ($vendor !== false && in_array($vendor, $this->ignoredDepVendors, true))) {
+                continue;
+            }
+
             foreach ($package->getOutEdges() as $requires) {
                 if (!$this->showDevDependencies && $requires->isDevDependency()) {
                     continue;
@@ -96,7 +107,7 @@ class GraphComposer
             }
         }
 
-        if (!$this->showDevDependencies) {
+        if (!$this->showDevDependencies || $this->ignoredDepVendors !== [] || $this->ignoredDepPackages !== []) {
             $rootVertex = $graph->getVertex($this->dependencyGraph->getRootPackage()->getName());
             $reachable = [$rootVertex->getId() => true];
             $queue = [$rootVertex];
@@ -144,6 +155,24 @@ class GraphComposer
         $graph = $this->createGraph();
 
         return $this->graphviz->createImageFile($graph);
+    }
+
+    /**
+     * @param string[] $vendors
+     */
+    public function setIgnoredDepVendors(array $vendors): static
+    {
+        $this->ignoredDepVendors = $vendors;
+        return $this;
+    }
+
+    /**
+     * @param string[] $packages
+     */
+    public function setIgnoredDepPackages(array $packages): static
+    {
+        $this->ignoredDepPackages = $packages;
+        return $this;
     }
 
     public function setShowPhpExtensions(bool $show): static
