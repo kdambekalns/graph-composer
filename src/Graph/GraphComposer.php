@@ -12,16 +12,16 @@ use JMS\Composer\Graph\DependencyGraph;
 
 class GraphComposer
 {
-    private $layoutVertex = array(
+    private const LAYOUT_VERTEX = [
         'fillcolor' => '#eeeeee',
         'style' => 'filled, rounded',
         'shape' => 'box',
         'fontcolor' => '#314B5F'
-    );
+    ];
 
-    private $layoutVertexRoot = array(
+    private const LAYOUT_VERTEX_ROOT = [
         'style' => 'filled, rounded, bold'
-    );
+    ];
 
     private array $layoutEdge = [
         'fontcolor' => '#767676',
@@ -91,7 +91,7 @@ class GraphComposer
         }
 
         $root = $graph->getVertex($this->dependencyGraph->getRootPackage()->getName());
-        $this->setLayout($root, $this->layoutVertexRoot);
+        $this->setLayout($root, self::LAYOUT_VERTEX_ROOT);
 
         return $graph;
     }
