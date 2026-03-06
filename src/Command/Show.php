@@ -18,13 +18,14 @@ class Show extends Command
              ->setDescription('Show dependency graph image for given project directory')
              ->addArgument('dir', InputArgument::OPTIONAL, 'Path to project directory to scan', '.')
              ->addOption('format', null, InputOption::VALUE_REQUIRED, 'Image format (svg, png, jpeg)', 'svg')
-           /*->addOption('dev', null, InputOption::VALUE_NONE, 'If set, Whether require-dev dependencies should be shown') */;
+             ->addOption('dev', null, InputOption::VALUE_NONE, 'If set, require-dev dependencies are included');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $graph = new GraphComposer((string)$input->getArgument('dir'));
         $graph->setFormat((string)$input->getOption('format'));
+        $graph->setShowDevDependencies((bool)$input->getOption('dev'));
         $graph->displayGraph();
 
         return 0;

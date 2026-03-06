@@ -39,6 +39,8 @@ class GraphComposer
         'style' => 'dashed'
     ];
 
+    private bool $showDevDependencies = true;
+
     private DependencyGraph $dependencyGraph;
 
     private GraphViz $graphviz;
@@ -70,6 +72,9 @@ class GraphComposer
             $this->setLayout($start, ['label' => $label] + self::LAYOUT_VERTEX);
 
             foreach ($package->getOutEdges() as $requires) {
+                if (!$this->showDevDependencies && $requires->isDevDependency()) {
+                    continue;
+                }
                 $targetName = $requires->getDestPackage()->getName();
                 $target = $graph->createVertex($targetName, true);
 
@@ -80,6 +85,27 @@ class GraphComposer
 
                 if ($requires->isDevDependency()) {
                     $this->setLayout($edge, $this->layoutEdgeDev);
+                }
+            }
+        }
+
+        if (!$this->showDevDependencies) {
+            $rootVertex = $graph->getVertex($this->dependencyGraph->getRootPackage()->getName());
+            $reachable = [$rootVertex->getId() => true];
+            $queue = [$rootVertex];
+            while (!empty($queue)) {
+                $vertex = array_shift($queue);
+                foreach ($vertex->getEdgesOut() as $edge) {
+                    $target = $edge->getVertexEnd();
+                    if (!isset($reachable[$target->getId()])) {
+                        $reachable[$target->getId()] = true;
+                        $queue[] = $target;
+                    }
+                }
+            }
+            foreach ($graph->getVertices() as $vertex) {
+                if (!isset($reachable[$vertex->getId()])) {
+                    $vertex->destroy();
                 }
             }
         }
@@ -111,6 +137,12 @@ class GraphComposer
         $graph = $this->createGraph();
 
         return $this->graphviz->createImageFile($graph);
+    }
+
+    public function setShowDevDependencies(bool $show): static
+    {
+        $this->showDevDependencies = $show;
+        return $this;
     }
 
     public function setFormat(string $format): static
