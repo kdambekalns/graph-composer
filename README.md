@@ -176,7 +176,7 @@ Therefore you'll need PHP, Composer, GraphViz, git and curl installed.
 For example, on a recent Ubuntu/debian system, simply run:
 
 ```bash
-$ sudo apt install php7.2-cli git curl graphviz
+$ sudo apt install php8.2-cli git curl graphviz
 
 $ git clone https://github.com/clue/graph-composer.git
 $ cd graph-composer
