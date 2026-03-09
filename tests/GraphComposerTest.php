@@ -33,7 +33,7 @@ class GraphVizMockSetFormat extends GraphViz
     }
 }
 
-class GraphTest extends TestCase
+class GraphComposerTest extends TestCase
 {
     public function testCreateGraph(): void
     {
